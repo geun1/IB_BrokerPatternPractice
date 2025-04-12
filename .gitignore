@@ -1,0 +1,79 @@
+# Python 바이트 코드 / 캐시 파일
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# 가상 환경
+venv/
+env/
+ENV/
+.env
+.venv
+virtualenv/
+
+# 패키지 관련
+dist/
+build/
+*.egg
+*.egg-info/
+.eggs/
+*.manifest
+*.spec
+pip-log.txt
+pip-delete-this-directory.txt
+
+# 테스트 관련
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# 에디터 / IDE 설정
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.spyderproject
+.spyproject
+.ropeproject
+
+# 로그
+*.log
+logs/
+
+# 시스템 파일
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# 특정 디렉토리 및 파일
+instance/
+.webassets-cache
+.scrapy
+
+# 로컬 설정
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# 몇 가지 추가적인 패턴
+*.bak
+*.tmp
+*.temp
+temp/ 
