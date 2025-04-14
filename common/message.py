@@ -1,8 +1,25 @@
-# 구현 예정:
-# 1. Message 클래스: 요청과 응답을 위한 기본 클래스
-# 2. Request 클래스: 서비스 이름, 메서드, 매개변수 등 포함
-# 3. Response 클래스: 결과, 오류 정보 등 포함
-# 4. ServiceInfo 클래스: 서버 서비스 정보 저장 
+"""
+브로커, 서버, 클라이언트 간 통신에 사용되는 메시지 정의
+
+주요 클래스:
+1. Message: 기본 메시지 구조 정의
+2. Request: 클라이언트의 서비스 요청 메시지
+3. Response: 서버의 응답 메시지
+4. ServiceInfo: 서비스 등록 정보
+
+메시지 유형:
+- register_service: 서비스 등록 요청
+- register_service_response: 서비스 등록 응답
+- unregister_service: 서비스 등록 해제 요청
+- list_services: 서비스 목록 요청
+- get_service_info: 서비스 정보 요청
+- forward_request: 클라이언트 요청 전달
+- server_request: 서버에 전달되는 요청
+- server_response: 서버 응답
+- forward_request_response: 클라이언트에 전달되는 응답
+
+각 메시지는 JSON으로 직렬화되어 전송됨
+"""
 
 from typing import Any, Dict, List, Optional
 import uuid

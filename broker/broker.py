@@ -1,3 +1,15 @@
+"""
+브로커 패턴의 중앙 컴포넌트 정의
+
+주요 기능:
+1. 서비스 등록 및 관리: 서버가 제공하는 서비스를 등록하고 추적
+2. 서비스 발견: 클라이언트가 요청한 서비스 정보 제공
+3. 요청 라우팅: 클라이언트 요청을 적절한 서버로 전달
+4. 응답 반환: 서버 응답을 클라이언트에게 반환
+
+추상 클래스로서 다양한 구현체의 기본 인터페이스 제공
+"""
+
 # 구현 예정:
 # 1. Broker 클래스: 서비스 요청 중계자
 #   - 서비스 저장소(repository) 유지
@@ -123,26 +135,58 @@ class ServiceRepository:
 
 class Broker:
     """
-    브로커 패턴의 중앙 중개자 역할을 하는 클래스
+    서비스 브로커 - 서비스 등록 및 요청 처리
     """
     
     def __init__(self):
-        """브로커 초기화"""
-        self.repository = ServiceRepository()
-        self.server_handlers: Dict[str, Callable] = {}
+        """
+        브로커 초기화
+        """
         self.broker_id = str(uuid.uuid4())
+        self.services = {}  # 서비스 이름 -> 서비스 정보
+        self.servers = {}   # 서버 ID -> [서비스 ID]
         
-    def register_service(self, service_info: ServiceInfo) -> bool:
+    def register_service(self, service_info):
         """
         서비스 등록
         
         Args:
-            service_info: 등록할 서비스 정보
+            service_info: 서비스 정보
             
         Returns:
             등록 성공 여부
         """
-        return self.repository.register_service(service_info)
+        try:
+            # ServiceInfo 객체가 아닌 경우 변환
+            if not isinstance(service_info, ServiceInfo):
+                service_info = ServiceInfo.from_dict(service_info)
+                
+            service_name = service_info.service_name
+            server_id = service_info.server_id
+            
+            # 이미 등록된 서비스인 경우 업데이트
+            if service_name in self.services:
+                old_service = self.services[service_name]
+                # 기존 서버 매핑 제거
+                if old_service.server_id in self.servers:
+                    services = self.servers.get(old_service.server_id, [])
+                    if service_name in services:
+                        services.remove(service_name)
+            
+            # 서비스 등록
+            self.services[service_name] = service_info
+            
+            # 서버 -> 서비스 매핑 업데이트
+            if server_id not in self.servers:
+                self.servers[server_id] = []
+            if service_name not in self.servers[server_id]:
+                self.servers[server_id].append(service_name)
+                
+            print(f"서비스 '{service_name}'이(가) 등록되었습니다. (서버: {server_id})")
+            return True
+        except Exception as e:
+            print(f"서비스 등록 실패: {str(e)}")
+            return False
     
     def unregister_service(self, server_id: str, service_name: Optional[str] = None) -> bool:
         """
@@ -234,4 +278,19 @@ class Broker:
         Returns:
             서비스 정보 목록
         """
-        return self.repository.get_service_info(service_name) 
+        return self.repository.get_service_info(service_name)
+
+    def find_service(self, service_name):
+        """
+        서비스 이름으로 서비스 정보 찾기
+        
+        Args:
+            service_name: 찾을 서비스 이름
+            
+        Returns:
+            서비스 ID (없으면 None)
+        """
+        if service_name in self.services:
+            service_info = self.services[service_name]
+            return service_info.server_id
+        return None 
