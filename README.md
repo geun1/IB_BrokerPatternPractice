@@ -91,22 +91,24 @@
 
 ## 프로젝트 구조
 
+```
 broker-pattern/
 ├── broker/
-│ ├── broker.py
-│ └── network_broker.py
+│   ├── broker.py
+│   └── network_broker.py
 ├── client/
-│ └── network_client.py
+│   └── network_client.py
 ├── common/
-│ └── message.py
+│   └── message.py
 ├── server/
-│ ├── server.py
-│ └── network_server.py
+│   ├── server.py
+│   └── network_server.py
 ├── test/
-│ ├── run_broker_tests.py
-│ ├── test_broker_integration.py
-│ └── test_broker_pattern.py
+│   ├── run_broker_tests.py
+│   ├── test_broker_integration.py
+│   └── test_broker_pattern.py
 └── README.md
+```
 
 ## 주요 컴포넌트 설명
 
@@ -236,7 +238,3 @@ class Message:
 3. **서비스 해제 과정**:
     - 서버가 종료되거나 서비스를 더 이상 제공하지 않을 때, 브로커에게 서비스 해제를 알립니다.
     - 브로커는 서비스 레지스트리에서 해당 서비스를 제거합니다.
-
-## 다음 단계
-
-프로젝트의 다음 단계와 로드맵에 대해 알아보려면 아키텍처 문서를 참조하세요.
